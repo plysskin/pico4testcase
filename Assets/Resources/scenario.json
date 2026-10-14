@@ -1,0 +1,61 @@
+
+{
+  "startNodeId": "start",
+  "nodes": [
+    {
+      "id": "start",
+      "type": "Video",
+      "panoramaId": "panorama_1",
+      "videoId": "video_1",
+      "choiceAText": "A",
+      "choiceBText": "B",
+      "nextA": "episode_2",
+      "nextB": "episode_3",
+      "endingText": ""
+    },
+    {
+      "id": "episode_2",
+      "type": "Video",
+      "panoramaId": "panorama_2",
+      "videoId": "video_2",
+      "choiceAText": "A",
+      "choiceBText": "B",
+      "nextA": "ending_1",
+      "nextB": "ending_2",
+      "endingText": ""
+    },
+    {
+      "id": "episode_3",
+      "type": "Video",
+      "panoramaId": "panorama_3",
+      "videoId": "video_3",
+      "choiceAText": "A",
+      "choiceBText": "B",
+      "nextA": "ending_2",
+      "nextB": "ending_1",
+      "endingText": ""
+    },
+    {
+      "id": "ending_1",
+      "type": "Ending",
+      "panoramaId": "",
+      "videoId": "",
+      "choiceAText": "",
+      "choiceBText": "",
+      "nextA": "",
+      "nextB": "",
+      "endingText": "Вы достигли финала 1"
+    },
+    {
+      "id": "ending_2",
+      "type": "Ending",
+      "panoramaId": "",
+      "videoId": "",
+      "choiceAText": "",
+      "choiceBText": "",
+      "nextA": "",
+      "nextB": "",
+      "endingText": "Вы достигли финала 2"
+    }
+  ]
+}
