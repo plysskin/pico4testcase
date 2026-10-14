@@ -4,56 +4,80 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static tcVirtualButton;
 
 public class tcScenarioUI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private ScenarioManager scenarioManager;
-    [SerializeField] private Button buttonA;
-    [SerializeField] private Button buttonB;
+    [SerializeField] private tcVirtualButton buttonA;
+    [SerializeField] private tcVirtualButton buttonB;
     [SerializeField] private TMP_Text endingText;
-    [SerializeField] private Button restartButton;
+    [SerializeField] private tcVirtualButton restartButton;
+    [SerializeField] private GameObject rightHand; //for debug only
+    [SerializeField] Vector3 PressAPosition; //for debug only
+    [SerializeField] Vector3 PressBPosition;
+    [SerializeField] Vector3 PressRestartPosition;
+    [SerializeField] Vector3 NoPressPosition;
+
     public event Action ChoiceA;
     public event Action ChoiceB;
 
     private void Start()
     {
-        buttonA.onClick.AddListener(ChooseA);
-        buttonB.onClick.AddListener(ChooseB);
-        restartButton.onClick.AddListener(RestartScenario);
+        buttonA.scenarioUIManager = this;
+        buttonB.scenarioUIManager = this;
+        restartButton.scenarioUIManager = this;
+
 
         RefreshUI();
     }
 
     private void Update()
     {
-        if (Keyboard.current.digit1Key.wasPressedThisFrame)
-        {
-            Debug.Log("A choosen wisely");
-            ChoiceA?.Invoke();
-        }
-
-        if (Keyboard.current.digit2Key.wasPressedThisFrame)
-        {
-            Debug.Log("B choosen wisely");
-            ChoiceB?.Invoke();
-        }
+        KeyboardDebugUpdate();
 
         RefreshUI();
     }
 
+    private void KeyboardDebugUpdate()
+    {
+        if (Keyboard.current.digit1Key.wasPressedThisFrame)
+        {
+            Debug.Log("Moving to A", this);
+            rightHand.transform.position = PressAPosition;
+        }
+
+        if (Keyboard.current.digit2Key.wasPressedThisFrame)
+        {
+            Debug.Log("Moving to B", this);
+            rightHand.transform.position = PressBPosition;
+        }
+
+        if (Keyboard.current.digit3Key.wasPressedThisFrame)
+        {
+            Debug.Log("Moving to C",this);
+            rightHand.transform.position = PressRestartPosition;
+        }
+        if (Keyboard.current.digit4Key.wasPressedThisFrame)
+        {
+            Debug.Log("Moving back", this);
+            rightHand.transform.position = NoPressPosition;
+        }
+    }
+
     private void ChooseA()
     {
+        Debug.Log("A choosen wisely");
         ChoiceA?.Invoke();
 
-//        scenarioManager.ChooseA();
         RefreshUI();
     }
 
     private void ChooseB()
     {
+        Debug.Log("B choosen wisely");
         ChoiceB?.Invoke();
-//        scenarioManager.ChooseB();
         RefreshUI();
     }
 
@@ -73,8 +97,17 @@ public class tcScenarioUI : MonoBehaviour
             scenarioManager.CurrentNode.NodeKind ==
             ScenarioNodeKind.Ending;
 
-        buttonA.gameObject.SetActive(!isEnding);
-        buttonB.gameObject.SetActive(!isEnding);
+        bool isVideoFinished =
+            scenarioManager.isVideoFinished;
+
+
+        buttonA.gameObject.SetActive(!isEnding && isVideoFinished);
+        buttonB.gameObject.SetActive(!isEnding && isVideoFinished);
+
+
+
+
+
 
         endingText.gameObject.SetActive(isEnding);
         restartButton.gameObject.SetActive(isEnding);
@@ -83,9 +116,17 @@ public class tcScenarioUI : MonoBehaviour
         {
             endingText.text =
                 scenarioManager.CurrentNode.endingText;
+            
         }
     }
 
-
-
+    internal void ButtonPressed(tcVirtualButton.ButtonChoice choice)
+    {
+        if (choice == ButtonChoice.A)
+            ChooseA();
+        if (choice == ButtonChoice.B)
+            ChooseB();
+        if (choice == ButtonChoice.Restart)
+            scenarioManager.RestartScenario();
+    }
 }

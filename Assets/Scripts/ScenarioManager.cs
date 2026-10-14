@@ -2,6 +2,7 @@
 
 
 using UnityEngine;
+using static UnityEngine.XR.OpenXR.Features.Interactions.HTCViveControllerProfile;
 
 public class ScenarioManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class ScenarioManager : MonoBehaviour
 
     private ScenarioNodeData currentNode;
     private bool isTransitioning;
+    public  bool isVideoFinished;
 
 
     public ScenarioNodeData CurrentNode => currentNode;
@@ -27,6 +29,9 @@ public class ScenarioManager : MonoBehaviour
             return;
         }
 
+        if (VideoController != null)
+            VideoController.PlaybackFinished += HandleVideoFinished;
+
         if (!ScenarioHolder.LoadScenario())
             return;
         
@@ -36,9 +41,12 @@ public class ScenarioManager : MonoBehaviour
             return;
         }
 
+        if (UIController== null)
+        {
+            Debug.LogError("UIController не назначен.", this);
+            return;
+        }
 
-        HandController.ChoiceA += ChooseA;
-        HandController.ChoiceB += ChooseB;
         UIController.ChoiceA += ChooseA;
         UIController.ChoiceB += ChooseB;
 
@@ -68,6 +76,15 @@ public class ScenarioManager : MonoBehaviour
 
     private void Choose(string nextNodeId)
     {
+        if (currentNode != null &&
+            currentNode.NodeKind == ScenarioNodeKind.Video &&
+            !isVideoFinished)
+        {
+            Debug.Log("Дождитесь окончания видео.", this);
+            return;
+        }
+
+
         if (isTransitioning || currentNode == null)
             return;
 
@@ -82,6 +99,10 @@ public class ScenarioManager : MonoBehaviour
 
         isTransitioning = true;
         EnterNode(nextNodeId);
+
+
+
+
     }
 
     private void EnterNode(string nodeId)
@@ -95,150 +116,35 @@ public class ScenarioManager : MonoBehaviour
 
         currentNode = node;
         isTransitioning = false;
+        isVideoFinished = false;
 
         Debug.Log(
-            $"Текущий узел: {currentNode.id}, тип: {currentNode.type}",
-            this
-        );
+           $"Текущий узел: {currentNode.id}, тип: {currentNode.type}",
+           this
+       );
 
-            Debug.Log($"Вы достигли нода {nodeId}");
-            Debug.Log($"Choice is yours: {node.choiceAText} or {node.choiceBText}");
+        Debug.Log($"Вы достигли нода {nodeId}");
+        Debug.Log($"Choice is yours: {node.choiceAText} or {node.choiceBText}");
+
+        if (currentNode.NodeKind == ScenarioNodeKind.Video)
+        {
+                VideoController.PlayVideo(currentNode.videoId);
+        }
 
             PanoramaController.SetPanorama(currentNode.panoramaId);
-            VideoController.PlayVideo(videoClipFileName: currentNode.videoId);
-
-
+            VideoController.PlayVideo(currentNode.videoId);
 
 
         if (currentNode.NodeKind == ScenarioNodeKind.Ending)
             Debug.Log(currentNode.endingText, this);
     }
+
+    private void HandleVideoFinished()
+    {
+        isVideoFinished = true;
+        Debug.Log("Видео завершено. Выбор A/B разрешён.", this);
+    }
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-///*******************************************************---  
-///* СТАРЫЙ МЕНЕДЖЕР УДАЛИТЬ
-///***********************************************************
-
-//public class ScenarioManager : MonoBehaviour
-//{
-//    [Header("Scenario")]
-
-
-
-
-//    public ScenarioNode startNode;      //TODO: make private
-//    public ScenarioNode currentNode; //TODO: make private
-
-//    private bool isTransitioning;
-
-//    public ScenarioNode CurrentNode => currentNode;
-//    public bool IsTransitioning => isTransitioning;
-
-//    private void Start()
-//    {
-//        //startNode = ScenarioHolder.GetStartingScenaro();
-//        Debug.Log("Hi");
-//        HandController.ChoiceA += ChooseA;
-//        HandController.ChoiceB += ChooseB;
-//        if (ScenarioHolder == null)
-//        {
-//            Debug.LogError("ScenarioHolder не назначен.", this);
-//            return;
-//        }
-//        if (!ScenarioHolder.LoadScenario())
-
-//            return;
-
-//        RestartScenario();
-//    }
-
-//    public void RestartScenario()
-//    {
-//        if (ScenarioHolder == null || !ScenarioHolder.IsLoaded)
-//            return;
-
-//        isTransitioning = false;
-//        EnterNode(ScenarioHolder.StartNodeId);
-//    }
-
-
-//    public void ChooseA()
-//    {
-//        Choose(currentNode != null ? currentNode.nextA : null);
-//    }
-
-//    public void ChooseB()
-//    {
-//        Choose(currentNode != null ? currentNode.nextB : null);
-//    }
-
-//private void Choose(ScenarioNode nextNode)
-//{
-//    if (isTransitioning || currentNode == null)
-//        return;
-
-//    if (currentNode.nodeType != ScenarioNodeType.Video)
-//        return;
-
-//    if (nextNode == null)
-//    {
-//        Debug.LogError(
-//            $"Не задан следующий узел для {currentNode.nodeId}"
-//        );
-//        return;
-//    }
-
-//    isTransitioning = true;
-//    EnterNode(nextNode);
-//}
-
-//private void EnterNode(ScenarioNode node)
-//{
-//    if (node == null)
-//    {
-//        Debug.LogError("Стартовый или следующий узел не задан.");
-//        currentNode = null;
-//        isTransitioning = false;
-//        return;
-//    }
-
-//    currentNode = node;
-//    Debug.Log($"Вы достигли нода {node.name}");
-//    Debug.Log($"Choice is yours: {node.choiceAText} or {node.choiceBText}");
-
-//    PanoramaController.SetPanorama(currentNode.panoramaFileName);
-//    VideoController.PlayVideo(videoClipFileName: currentNode.videoClipFileName);
-
-
-//    isTransitioning = false;
-
-//    Debug.Log(
-//        $"Текущий узел: {node.nodeId}, тип: {node.nodeType}"
-//    );
-//}
-
-///---
-///
-
-
-
-
-
-
 
