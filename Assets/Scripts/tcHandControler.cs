@@ -18,16 +18,5 @@ public class tcHandControler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.digit1Key.wasPressedThisFrame)
-        {
-            Debug.Log("A choosen wisely");
-            ChoiceA?.Invoke();
-        }
-
-        if (Keyboard.current.digit2Key.wasPressedThisFrame)
-        {
-            Debug.Log("B choosen wisely");
-            ChoiceB?.Invoke();
-        }
     }
 }

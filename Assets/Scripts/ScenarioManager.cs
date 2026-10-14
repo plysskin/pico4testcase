@@ -10,6 +10,8 @@ public class ScenarioManager : MonoBehaviour
     [SerializeField] private tcPanoramaController PanoramaController;
     [SerializeField] private tcVideoController VideoController;
     [SerializeField] private tcHandControler HandController;
+    [SerializeField] private tcScenarioUI UIController;
+
     private ScenarioNodeData currentNode;
     private bool isTransitioning;
 
@@ -37,6 +39,8 @@ public class ScenarioManager : MonoBehaviour
 
         HandController.ChoiceA += ChooseA;
         HandController.ChoiceB += ChooseB;
+        UIController.ChoiceA += ChooseA;
+        UIController.ChoiceB += ChooseB;
 
         RestartScenario();
     }
