@@ -38,7 +38,7 @@
     {
       "id": "ending_1",
       "type": "Ending",
-      "panoramaId": "",
+      "panoramaId": "panorama_end_1",
       "videoId": "",
       "choiceAText": "",
       "choiceBText": "",
@@ -49,7 +49,7 @@
     {
       "id": "ending_2",
       "type": "Ending",
-      "panoramaId": "",
+      "panoramaId": "panorama_end_2",
       "videoId": "",
       "choiceAText": "",
       "choiceBText": "",

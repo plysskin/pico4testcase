@@ -26,8 +26,8 @@ public class MouseButtonTester : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            VirtualButton button =
-                hit.collider.GetComponentInParent<VirtualButton>();
+            tcVirtualButton button =
+                hit.collider.GetComponentInParent<tcVirtualButton>();
 
             if (button != null)
                 button.Press();
