@@ -15,10 +15,11 @@ public class tcScenarioUI : MonoBehaviour
     [SerializeField] private TMP_Text endingText;
     [SerializeField] private tcVirtualButton restartButton;
     [SerializeField] private GameObject rightHand; //for debug only
-    [SerializeField] Vector3 PressAPosition; //for debug only
-    [SerializeField] Vector3 PressBPosition;
-    [SerializeField] Vector3 PressRestartPosition;
-    [SerializeField] Vector3 NoPressPosition;
+
+    // Отладочная "рука" ставится на 0.2 м ближе к пользователю, чем кнопка,
+    // чтобы кончик пальца дотянулся до неё (for debug only).
+    private const float DebugHandOffset = 0.2f;
+    private Vector3 debugHandRestPosition; //for debug only
 
     public event Action ChoiceA;
     public event Action ChoiceB;
@@ -29,6 +30,8 @@ public class tcScenarioUI : MonoBehaviour
         buttonB.scenarioUIManager = this;
         restartButton.scenarioUIManager = this;
 
+        if (rightHand != null)
+            debugHandRestPosition = rightHand.transform.position;
 
         RefreshUI();
     }
@@ -45,25 +48,46 @@ public class tcScenarioUI : MonoBehaviour
         if (Keyboard.current.digit1Key.wasPressedThisFrame)
         {
             Debug.Log("Moving to A", this);
-            rightHand.transform.position = PressAPosition;
+            MoveDebugHandTo(buttonA);
         }
 
         if (Keyboard.current.digit2Key.wasPressedThisFrame)
         {
             Debug.Log("Moving to B", this);
-            rightHand.transform.position = PressBPosition;
+            MoveDebugHandTo(buttonB);
         }
 
         if (Keyboard.current.digit3Key.wasPressedThisFrame)
         {
-            Debug.Log("Moving to C",this);
-            rightHand.transform.position = PressRestartPosition;
+            Debug.Log("Moving to C", this);
+            MoveDebugHandTo(restartButton);
         }
+
         if (Keyboard.current.digit4Key.wasPressedThisFrame)
         {
             Debug.Log("Moving back", this);
-            rightHand.transform.position = NoPressPosition;
+            MoveDebugHandToRest();
         }
+    }
+
+    // Панель привязана к полю зрения и постоянно смещается вместе с головой,
+    // поэтому отладочная "рука" ставится относительно текущей позы кнопки:
+    // на DebugHandOffset ближе к пользователю (лицом кнопка смотрит на него).
+    private void MoveDebugHandTo(tcVirtualButton button)
+    {
+        if (rightHand == null || button == null)
+            return;
+
+        rightHand.transform.position =
+            button.transform.position + button.transform.forward * DebugHandOffset;
+    }
+
+    private void MoveDebugHandToRest()
+    {
+        if (rightHand == null)
+            return;
+
+        rightHand.transform.position = debugHandRestPosition;
     }
 
     private void ChooseA()

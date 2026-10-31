@@ -21,6 +21,8 @@ public class tcVideoController : MonoBehaviour
         videoPlayer.playOnAwake = false;
         videoPlayer.isLooping = false;
         videoPlayer.source = VideoSource.VideoClip;
+        videoPlayer.errorReceived += 
+            (src, msg) => Debug.LogError($"VideoPlayer error: {msg}", this);
 
         videoPlayer.loopPointReached += OnVideoFinished;
     }

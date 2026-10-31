@@ -21,8 +21,16 @@ public class ScenarioManager : MonoBehaviour
     public ScenarioNodeData CurrentNode => currentNode;
     public bool IsTransitioning => isTransitioning;
 
+    private void Awake()
+    {
+        Debug.LogError("### TEST BUILD 1024: ScenarioManager Awake ### (No error)");
+    }
+
+
     private void Start()
     {
+        Debug.Log("DIAGNOSTIC: ScenarioManager.Start() вызван", this);
+
         if (ScenarioHolder == null)
         {
             Debug.LogError("ScenarioHolder не назначен.", this);

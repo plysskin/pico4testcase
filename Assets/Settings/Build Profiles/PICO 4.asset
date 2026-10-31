@@ -166,7 +166,13 @@ MonoBehaviour:
     - line: '|   visionOSBundleVersion: 1.0'
     - line: '|   tvOSBundleVersion: 1.0'
     - line: '|   bundleVersion: 0.1.0'
-    - line: '|   preloadedAssets: []'
+    - line: '|   preloadedAssets:'
+    - line: '|   - {fileID: 8549506269935802162, guid: d7360f03d7a873b448368d88658c86c2,
+        type: 2}'
+    - line: '|   - {fileID: 5610988116751781780, guid: c0f7d20dd09c39044a889bb25d87c3ab,
+        type: 2}'
+    - line: '|   - {fileID: 11400000, guid: ed08bd425d2f8f34f82eee54f5e23772, type:
+        2}'
     - line: '|   metroInputSource: 0'
     - line: '|   wsaTransparentSwapchain: 0'
     - line: '|   m_HolographicPauseOnTrackingLoss: 1'
@@ -188,7 +194,7 @@ MonoBehaviour:
     - line: '|   androidMaxAspectRatio: 2.4'
     - line: '|   androidMinAspectRatio: 1'
     - line: '|   applicationIdentifier:'
-    - line: '|     Android: com.UnityTechnologies.com.unity.template.urpblank'
+    - line: '|     Android: com.ailab.pico4test'
     - line: '|     Standalone: com.Unity-Technologies.com.unity.template.urp-blank'
     - line: '|     iPhone: com.Unity-Technologies.com.unity.template.urp-blank'
     - line: '|   buildNumber:'
@@ -553,7 +559,7 @@ MonoBehaviour:
     - line: '|     m_APIs: 10000000'
     - line: '|     m_Automatic: 1'
     - line: '|   - m_BuildTarget: AndroidPlayer'
-    - line: '|     m_APIs: 150000000b000000'
+    - line: '|     m_APIs: 0b000000'
     - line: '|     m_Automatic: 0'
     - line: '|   m_BuildTargetVRSettings: []'
     - line: '|   m_DefaultShaderChunkSizeInMB: 16'
@@ -1002,9 +1008,9 @@ MonoBehaviour:
         m_BuildSubtarget: 5
         m_BuildSystem: 1
         m_ExportAsGoogleAndroidProject: 0
-        m_DebugSymbolLevel: 2
+        m_DebugSymbolLevel: 1
         m_DebugSymbolFormat: 5
-        m_CurrentDeploymentTargetId: PA8120MGGC020434G
+        m_CurrentDeploymentTargetId: __builtin__target_default
         m_BuildType: 1
         m_BuildAppBundle: 0
         m_IPAddressToConnect: 

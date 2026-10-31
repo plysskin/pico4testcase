@@ -19,6 +19,9 @@ public class tcScenarioHolder : MonoBehaviour
 
     public bool LoadScenario()
     {
+
+        Debug.Log("DIAGNOSTIC: tcScenarioHolder.LoadScenario() вызван", this);
+
         TextAsset jsonFile =
             Resources.Load<TextAsset>(jsonFileName);
 
