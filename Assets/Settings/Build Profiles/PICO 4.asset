@@ -166,13 +166,7 @@ MonoBehaviour:
     - line: '|   visionOSBundleVersion: 1.0'
     - line: '|   tvOSBundleVersion: 1.0'
     - line: '|   bundleVersion: 0.1.0'
-    - line: '|   preloadedAssets:'
-    - line: '|   - {fileID: 8549506269935802162, guid: d7360f03d7a873b448368d88658c86c2,
-        type: 2}'
-    - line: '|   - {fileID: 5610988116751781780, guid: c0f7d20dd09c39044a889bb25d87c3ab,
-        type: 2}'
-    - line: '|   - {fileID: 11400000, guid: ed08bd425d2f8f34f82eee54f5e23772, type:
-        2}'
+    - line: '|   preloadedAssets: []'
     - line: '|   metroInputSource: 0'
     - line: '|   wsaTransparentSwapchain: 0'
     - line: '|   m_HolographicPauseOnTrackingLoss: 1'
